@@ -3,7 +3,6 @@ cd $(dirname $0)
 echo "Running test script"
 ./finder-test.sh
 rc=$?
-echo "thi is ${rc}"
 if [ ${rc} -eq 0 ]; then
     echo "Completed with success!!"
 else
