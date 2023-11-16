@@ -1,18 +1,27 @@
 #!/bin/sh
 
+# Set the path to your aesdsocket executable
+AESDSOCKET_BIN="/path/to/your/aesdsocket"
+
 case "$1" in
-    start)
-        echo "Starting assignment-5-server"
-        start-stop-daemon -S -n aesdsocket -a /usr/bin/aesdsocket -- -d
-        # start-stop-daemon -S -n aesdsocket -a ~/Learning/assignment-1-CuriousTux/server/aesdsocket -- -d
-        ;;
-    stop)
-        echo "Stopping assignment-5-server"
-        start-stop-daemon -K -n aesdsocket
-        ;;
-    *)
-        echo "Usage: $0 {start|stop}"
-        exit 1
+  start)
+    echo "Starting aesdsocket daemon..."
+    start-stop-daemon --start --background --make-pidfile --pidfile /var/run/aesdsocket.pid \
+      --exec "$AESDSOCKET_BIN" -d
+    ;;
+  stop)
+    echo "Stopping aesdsocket daemon..."
+    start-stop-daemon --stop --pidfile /var/run/aesdsocket.pid
+    ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+    ;;
 esac
 
 exit 0
