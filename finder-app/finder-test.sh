@@ -1,9 +1,14 @@
 #!/bin/sh
 # Tester script for assignment 1 and assignment 2
 # Author: Siddhant Jajoo
-
+SCRIPT_DIR=$(dirname $(realpath $0))
 set -e
 set -u
+
+#clean any previous artifacts
+#make clean
+#compile with native compilation
+#make
 
 NUMFILES=10
 WRITESTR=AELD_IS_FUN
@@ -22,8 +27,7 @@ then
 else
 	NUMFILES=$1
 	WRITESTR=$2
-	WDIR=$3
-	WRITEDIR=/tmp/aeld-data/$WDIR
+	WRITEDIR=/tmp/aeld-data/$3
 fi
 
 MATCHSTR="The number of files are ${NUMFILES} and the number of matching lines are ${NUMFILES}"
@@ -33,7 +37,8 @@ echo "Writing ${NUMFILES} files containing string ${WRITESTR} to ${WRITEDIR}"
 rm -rf "${WRITEDIR}"
 
 # create $WRITEDIR if not assignment1
-assignment=`cat conf/assignment.txt`
+assignment=`cat ${SCRIPT_DIR}/conf/assignment.txt`
+
 if [ $assignment != 'assignment1' ]
 then
 	mkdir -p "$WRITEDIR"
@@ -48,14 +53,17 @@ then
 		exit 1
 	fi
 fi
-echo "Removing the old writer utility and compiling as a native application"
+#echo "Removing the old writer utility and compiling as a native application"
+#make clean
+#make
 
 for i in $( seq 1 $NUMFILES)
 do
-	./writer "$WRITEDIR/${username}$i.txt" "$WRITESTR"
+	${SCRIPT_DIR}/writer "$WRITEDIR/${username}$i.txt" "$WRITESTR" #changed to use new writer
 done
 
-OUTPUTSTRING=$(./finder.sh "$WRITEDIR" "$WRITESTR")
+OUTPUTSTRING=$(${SCRIPT_DIR}/finder.sh "$WRITEDIR" "$WRITESTR")
+echo "${OUTPUTSTRING}" > /tmp/assingment-4-result.txt
 
 # remove temporary directories
 rm -rf /tmp/aeld-data
