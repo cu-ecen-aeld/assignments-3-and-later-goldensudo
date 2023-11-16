@@ -1,0 +1,6 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/roberto/assignments-3-and-later-goldensudo/server'
+cc    -c -o aesdsocket.o aesdsocket.c
+cc aesdsocket.o -o aesdsocket   -lpthread -lrt
+make: Leaving directory '/home/roberto/assignments-3-and-later-goldensudo/server'
+ 
